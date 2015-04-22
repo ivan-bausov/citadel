@@ -1,0 +1,17 @@
+{
+  "name": "Your Application Title",
+  "version": "0.0.0",
+  "description": "Application description",
+  "author": "",
+  "private": true,
+  "license": "",
+  "devDependencies": {
+    "requirejs": "latest",
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "grunt-contrib-requirejs": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-sass": "latest"
+  }
+}
