@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+'use strict';
+
+process.title = 'citadel';
+
+var base_dir = process.cwd();
+
+echo base_dir;
