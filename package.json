@@ -1,6 +1,6 @@
 {
   "name": "citadel",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Simple front-end framework",
   "bin": "./bin/citadel",
   "scripts": {
@@ -8,8 +8,7 @@
   },
   "author": "Ivan Bausov",
   "license": "ISC",
-  "dependencies":
-  {
+  "dependencies": {
     "ncp": "latest"
   }
 }
