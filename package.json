@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ivan Bausov",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies":
+  {
+    "ncp": "latest"
+  }
 }
