@@ -31,6 +31,7 @@ ncp(source, destination, function (err) {
                     console.log('stdout: ' + stdout);
                     console.log('stderr: ' + stderr);
                     console.log('Npm install done');
+                    child_process.exec('chmod 755 run.sh', function () {});
                 }
             });
         }
