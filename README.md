@@ -28,4 +28,14 @@ Citadel boilerplate has the following folder structure:
 * **Gruntfile.js** - default Grunt builder config.
 * **run.sh** - launcher for developer SASS watcher.
   
-
+##Gruntfile.js
+Running *grunt* command inside the Citadel project directory will execute the Grunt builder task. Builder will execute the following operations:
+* compile RequireJS dependencies and minify your app.js into app.min.js;
+* compile scss/main.scss into css/main.css;
+* clean production directory;
+* copy project files to production directory, by default the following tasks will be done:
+    * copy images and fonts folders as is into prod directory;
+    * copy css/main.css into prod directory;
+    * copy index.html file into prod directory, during this copy process the require.config.js will be removed from the html code. All additional html files must be configured to copy manually in Gruntfile.js.
+    * copy js/app.min.js into prod directory as app.js;
+    * copy require.js into prod directory;
