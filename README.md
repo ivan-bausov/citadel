@@ -1,12 +1,13 @@
 # citadel
 Citadel is a very simple front-end boilerplate. It contains a set of scripts and templates to perfom operations like:
-* prepare initial project folder and file structure
-  * prepare initial HTML and SASS templates
-  * prepare initial JavaScript based on RequireJs modules
-* prepare Grunt builder task
-* init Git repository init
+* prepare initial project folder and file structure:
+  * prepare initial HTML and SASS templates;
+  * prepare initial JavaScript based on RequireJs modules.
+* prepare Grunt builder task;
+* init Git repository.
+The basic idea of Citadel scripts set is a fast project initialization with pre-defined production build flow. By default Citadel requires you to organize your project in appropriate way - use RequireJS, SASS. As a result you production version would use only one minified JavaScript file (besides the require.js file itself) and only one CSS file.
 
-CD to your project folder and simply run command *citadel*. It copies template files, download node modules for Grunt build task and init Git repository inside the current folder. 
+CD to your project folder and simply run command *citadel*. It copies template files, downloads node modules for Grunt build task and initializes Git repository inside the current folder.
 
 Citadel boilerplate has the following folder structure:
 * **dev** - contains the developer version of your project:
@@ -29,13 +30,13 @@ Citadel boilerplate has the following folder structure:
 * **run.sh** - launcher for developer SASS watcher.
   
 ##Gruntfile.js
-Running *grunt* command inside the Citadel project directory will execute the Grunt builder task. Builder will execute the following operations:
-* compile RequireJS dependencies and minify your app.js into app.min.js;
-* compile scss/main.scss into css/main.css;
+Running *grunt* command inside the Citadel project directory will execute the Grunt builder task. Builder executes the following operations:
+* compile and minify your **app.js** file into **app.min.js**;
+* compile **scss/main.scss** into **css/main.css**;
 * clean production directory;
 * copy project files to production directory, by default the following tasks will be done:
     * copy images and fonts folders as is into prod directory;
-    * copy css/main.css into prod directory;
-    * copy index.html file into prod directory, during this copy process the require.config.js will be removed from the html code. All additional html files must be configured to copy manually in Gruntfile.js.
-    * copy js/app.min.js into prod directory as app.js;
-    * copy require.js into prod directory;
+    * copy **css/main.css** into **prod** directory;
+    * copy **index.html** file into **prod** directory, during this copy process the **require.config.js** will be removed from the html code. All additional html files must be configured to copy manually in Gruntfile.js.
+    * copy **js/app.min.js** into prod directory as **app.js**;
+    * copy **require.js** into prod directory;
