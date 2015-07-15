@@ -5,8 +5,12 @@
 /// <reference path="../definitions/node-0.10.d.ts" />
 
 import fs = require('fs');
+import interfaces = require('../compiler.i');
 import Compiler = require('../compiler.t');
 import Helpers = require('./helpers.t');
+
+import ItemData = interfaces.ItemData;
+import IItem = interfaces.IItem;
 
 var readContent = Helpers.readContent;
 
@@ -27,5 +31,73 @@ describe('CITADEL COMPILER', () => {
         }]);
     });
 
+});
+
+fdescribe('compiler.parseBlockDeclaration', () => {
+
+    it('block test', () => test({
+        source: 'block test',
+        result: {
+            type: 'block',
+            name: 'test',
+            tag: null
+        }
+    }));
+
+    it('BLOCK test', () => test({
+        source: 'BLOCK test',
+        result: {
+            type: 'block',
+            name: 'test',
+            tag: null
+        }
+    }));
+
+    it('block test as div', () => test({
+        source: 'block test as div',
+        result: {
+            type: 'block',
+            name: 'test',
+            tag: 'div'
+        }
+    }));
+
+    it('block test AS div', () => test({
+        source: 'block test AS div',
+        result: {
+            type: 'block',
+            name: 'test',
+            tag: 'div'
+        }
+    }));
+
+    it('  block    test   as   div  ', () => test({
+        source: '  block    test   as   div  ',
+        result: {
+            type: 'block',
+            name: 'test',
+            tag: 'div'
+        }
+    }));
+
+    it('block test bla', () => testError({
+        source: 'block test bla',
+        error: Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
+    }));
+
+    function test(options: {
+        source:string;
+        result: ItemData;
+    }){
+        var parse_result: ItemData = Compiler.parseBlockDeclaration(options.source);
+        expect(parse_result).toEqual(options.result);
+    }
+
+    function testError(options: {
+        source:string;
+        error: string;
+    }){
+        expect(() => Compiler.parseBlockDeclaration(options.source)).toThrowError(options.error);
+    }
 });
 

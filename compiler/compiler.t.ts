@@ -7,42 +7,25 @@
 
 import fs = require('fs');
 import _ = require('underscore');
+import interfaces = require('./compiler.i');
+import Tree = require('./tree.t');
 
-interface ItemData {
-    type:string;
-    tag:string;
-}
+import IItem = interfaces.IItem;
+import ItemData = interfaces.ItemData;
 
-class Item {
-    constructor(private parent: Item, private data:ItemData) {
-    }
-
-    public getParent():Item{
-        return this.parent;
-    }
-
-    public getData():ItemData{
-        return this.data;
-    }
-
-    public getChilds():Item[]{
-        return this.childs;
-    }
-
-    public addChild(item:Item):void{
-        this.childs.push(item);
-    }
-
-    private childs:Item[] = [];
-}
+var ERRORS = {
+    BLOCK_DECLARATION_SYNTAX_ERROR: "BLOCK declaration syntax error"
+};
 
 class Compiler {
+
+    static Errors = ERRORS;
 
     constructor(private source_code:string) {
         this.source_strings = source_code.split('\n');
 
         this.declaration_parsers = {
-            'block': (line:string) => this.parseBlockDeclaration(line)
+            'block': (line:string) => Compiler.parseBlockDeclaration(line)
         };
     }
 
@@ -80,13 +63,27 @@ class Compiler {
         return this.source_object;
     }
 
-    private parseBlockDeclaration(line:string){
+    public static parseBlockDeclaration(line:string):ItemData{
+        var block_declaration_pattern:RegExp = /^(?:\s+)?(?:(?:block)|(?:BLOCK))\s+(\S+)(\s+(?:(?:as)|(?:AS))\s+(\S+))?(?:\s+)?$/,
+            matches = line.match(block_declaration_pattern),
+            item_data:ItemData = null;
 
+        if(matches) {
+            item_data = {
+                type: 'block',
+                name: matches[1] || null,
+                tag: matches[3] || null
+            };
+        } else {
+            throw Error(Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR);
+        }
+
+        return item_data;
     }
 
     private source_strings:string[] = [];
     private source_object:any = [];
-    private current:Item = new Item(null, null);
+    private tree:Tree = new Tree<ItemData>();
     private declaration_patterns:_.Dictionary<RegExp> = {
       'block': /.?block.+/
     };
