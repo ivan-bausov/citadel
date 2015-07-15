@@ -33,75 +33,71 @@ describe('CITADEL COMPILER', () => {
 
 });
 
-describe('compiler.parseBlockDeclaration', () => {
+fdescribe('Compiler.parseBlockDeclaration', () => {
 
-    it('block test', () => test({
-        source: 'block test',
+    test({
+        source: 'b:test',
         result: {
-            type: 'block',
+            type: Compiler.ITEM_TYPE.BLOCK,
             name: 'test',
             tag: null
         }
-    }));
+    });
 
-    it('BLOCK test', () => test({
-        source: 'BLOCK test',
+    test({
+        source: 'b:test>a',
         result: {
-            type: 'block',
+            type: Compiler.ITEM_TYPE.BLOCK,
             name: 'test',
-            tag: null
+            tag: 'a'
         }
-    }));
+    });
 
-    it('block test as div', () => test({
-        source: 'block test as div',
+    test({
+        source: '  b:   test  > a  ',
         result: {
-            type: 'block',
+            type: Compiler.ITEM_TYPE.BLOCK,
             name: 'test',
-            tag: 'div'
+            tag: 'a'
         }
-    }));
+    });
 
-    it('block test AS div', () => test({
-        source: 'block test AS div',
-        result: {
-            type: 'block',
-            name: 'test',
-            tag: 'div'
-        }
-    }));
-
-    it('  block    test   as   div  ', () => test({
-        source: '  block    test   as   div  ',
-        result: {
-            type: 'block',
-            name: 'test',
-            tag: 'div'
-        }
-    }));
-
-    it('block test bla', () => testError({
-        source: 'block test bla',
+    testError({
+        source: 'b>test:a',
         error: Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
-    }));
+    });
 
-    function test(options: {
+    testError({
+        source: 'b:',
+        error: Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
+    });
+
+    testError({
+        source: 'b:>a',
+        error: Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
+    });
+
+    function test(options:{
         source:string;
         result: ItemData;
-    }){
-        var parse_result: ItemData = Compiler.parseBlockDeclaration(options.source);
-        expect(parse_result).toEqual(options.result);
+    }) {
+        it(options.source, () => {
+            var parse_result:ItemData = Compiler.parseBlockDeclaration(options.source);
+            expect(parse_result).toEqual(options.result);
+        });
     }
 
-    function testError(options: {
+    function testError(options:{
         source:string;
         error: string;
-    }){
-        expect(() => Compiler.parseBlockDeclaration(options.source)).toThrowError(options.error);
+    }) {
+        it(options.source, () => {
+            expect(() => Compiler.parseBlockDeclaration(options.source)).toThrowError(options.error);
+        });
     }
 });
 
-describe('Compiler.parseElementDeclaration', () => {
+fdescribe('Compiler.parseElementDeclaration', () => {
 
     test({
         source: 'e:',

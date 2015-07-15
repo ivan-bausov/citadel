@@ -71,36 +71,35 @@ class Compiler {
     }
 
     public static parseBlockDeclaration(line:string):ItemData{
-        var block_declaration_pattern:RegExp = /^(?:\s+)?(?:(?:block)|(?:BLOCK))\s+(\S+)(\s+(?:(?:as)|(?:AS))\s+(\S+))?(?:\s+)?$/,
-            matches = line.match(block_declaration_pattern),
-            item_data:ItemData = null;
-
-        if(matches) {
-            item_data = {
-                type: 'block',
-                name: matches[1] || null,
-                tag: matches[3] || null
-            };
-        } else {
-            throw Error(Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR);
-        }
-
-        return item_data;
+        return Compiler.parseDeclaration(
+            line,
+            /^\s*b\:\s*([^>\s]+)(:?\s*>\s*(\S+))?\s*$/,
+            Compiler.ITEM_TYPE.BLOCK,
+            Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
+        );
     }
 
     public static parseElementDeclaration(line:string):ItemData{
-        var element_declaration_pattern:RegExp = /^\s*e\:\s*([^>\s]+)?(:?\s*>\s*(\S+))?\s*$/,
-            matches = line.match(element_declaration_pattern),
+        return Compiler.parseDeclaration(
+            line,
+            /^\s*e\:\s*([^>\s]+)?(:?\s*>\s*(\S+))?\s*$/,
+            Compiler.ITEM_TYPE.ELEMENT,
+            Compiler.Errors.ELEMENT_DECLARATION_SYNTAX_ERROR
+        );
+    }
+
+    public static parseDeclaration(line:string, pattern:RegExp, item_type:string, error_message:string):ItemData{
+        var matches = line.match(pattern),
             item_data:ItemData = null;
 
         if(matches) {
             item_data = {
-                type: Compiler.ITEM_TYPE.ELEMENT,
+                type: item_type,
                 name: matches[1] || null,
                 tag: matches[3] || null
             };
         } else {
-            throw Error(Compiler.Errors.ELEMENT_DECLARATION_SYNTAX_ERROR);
+            throw Error(error_message);
         }
 
         return item_data;
