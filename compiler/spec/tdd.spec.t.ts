@@ -33,7 +33,7 @@ describe('CITADEL COMPILER', () => {
 
 });
 
-fdescribe('compiler.parseBlockDeclaration', () => {
+describe('compiler.parseBlockDeclaration', () => {
 
     it('block test', () => test({
         source: 'block test',
@@ -98,6 +98,78 @@ fdescribe('compiler.parseBlockDeclaration', () => {
         error: string;
     }){
         expect(() => Compiler.parseBlockDeclaration(options.source)).toThrowError(options.error);
+    }
+});
+
+describe('Compiler.parseElementDeclaration', () => {
+
+    test({
+        source: 'e:',
+        result: {
+            type: Compiler.ITEM_TYPE.ELEMENT,
+            name: null,
+            tag: null
+        }
+    });
+
+    test({
+        source: 'e:test',
+        result: {
+            type: Compiler.ITEM_TYPE.ELEMENT,
+            name: 'test',
+            tag: null
+        }
+    });
+
+    test({
+        source: 'e:test>a',
+        result: {
+            type: Compiler.ITEM_TYPE.ELEMENT,
+            name: 'test',
+            tag: 'a'
+        }
+    });
+
+    test({
+        source: 'e:>a',
+        result: {
+            type: Compiler.ITEM_TYPE.ELEMENT,
+            name: null,
+            tag: 'a'
+        }
+    });
+
+    test({
+        source: '  e:   test  > a  ',
+        result: {
+            type: Compiler.ITEM_TYPE.ELEMENT,
+            name: 'test',
+            tag: 'a'
+        }
+    });
+
+    testError({
+        source: 'e>test:a',
+        error: Compiler.Errors.ELEMENT_DECLARATION_SYNTAX_ERROR
+    });
+
+    function test(options:{
+        source:string;
+        result: ItemData;
+    }) {
+        it(options.source, () => {
+            var parse_result:ItemData = Compiler.parseElementDeclaration(options.source);
+            expect(parse_result).toEqual(options.result);
+        });
+    }
+
+    function testError(options:{
+        source:string;
+        error: string;
+    }) {
+        it(options.source, () => {
+            expect(() => Compiler.parseElementDeclaration(options.source)).toThrowError(options.error);
+        });
     }
 });
 

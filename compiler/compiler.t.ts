@@ -14,12 +14,19 @@ import IItem = interfaces.IItem;
 import ItemData = interfaces.ItemData;
 
 var ERRORS = {
-    BLOCK_DECLARATION_SYNTAX_ERROR: "BLOCK declaration syntax error"
+    BLOCK_DECLARATION_SYNTAX_ERROR: "BLOCK declaration syntax error",
+    ELEMENT_DECLARATION_SYNTAX_ERROR: "ELEMENT declaration syntax error"
+};
+
+var TYPES = {
+    ELEMENT: 'element',
+    BLOCK: 'block'
 };
 
 class Compiler {
 
     static Errors = ERRORS;
+    static ITEM_TYPE = TYPES;
 
     constructor(private source_code:string) {
         this.source_strings = source_code.split('\n');
@@ -76,6 +83,24 @@ class Compiler {
             };
         } else {
             throw Error(Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR);
+        }
+
+        return item_data;
+    }
+
+    public static parseElementDeclaration(line:string):ItemData{
+        var element_declaration_pattern:RegExp = /^\s*e\:\s*([^>\s]+)?(:?\s*>\s*(\S+))?\s*$/,
+            matches = line.match(element_declaration_pattern),
+            item_data:ItemData = null;
+
+        if(matches) {
+            item_data = {
+                type: Compiler.ITEM_TYPE.ELEMENT,
+                name: matches[1] || null,
+                tag: matches[3] || null
+            };
+        } else {
+            throw Error(Compiler.Errors.ELEMENT_DECLARATION_SYNTAX_ERROR);
         }
 
         return item_data;
