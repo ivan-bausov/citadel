@@ -83,7 +83,7 @@ class Compiler {
 
     private source_strings:string[] = [];
     private source_object:any = [];
-    private tree:Tree = new Tree<ItemData>();
+    private tree:Tree<ItemData> = new Tree<ItemData>();
     private declaration_patterns:_.Dictionary<RegExp> = {
       'block': /.?block.+/
     };
