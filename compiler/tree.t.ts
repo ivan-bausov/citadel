@@ -36,22 +36,35 @@ class Tree<T> {
     }
 
     public add(leaf_data:T):void{
-        if(this.current) {
-            this.current = this.current.addChild(leaf_data);
-        } else {
-            this.current = new Item<T>(null, leaf_data);
-        }
+        this.current_leaf = this.current_leaf.addChild(leaf_data);
     }
 
     public get():ILeaf<T>{
-        return this.current;
+        return this.current_leaf;
     }
 
     public up():void {
-        this.current = this.current.getParent() || this.current;
+        this.current_leaf = this.current_leaf.getParent() || this.current_leaf;
     }
 
-    private current: Item<T> = null;
+    public upTo(level:number):void {
+        while(this.level() > level) {
+            this.up();
+        }
+    }
+
+    public level():number {
+        var level:number = 0,
+            item:Item<T> = this.current_leaf;
+
+        while(item = item.getParent()){
+            level++
+        }
+
+        return level;
+    }
+
+    private current_leaf: Item<T> = new Item<T>(null, null);
 }
 
 export = Tree;

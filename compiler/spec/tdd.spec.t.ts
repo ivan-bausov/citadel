@@ -33,7 +33,7 @@ describe('CITADEL COMPILER', () => {
 
 });
 
-fdescribe('Compiler.parseBlockDeclaration', () => {
+describe('Compiler.parseBlockDeclaration', () => {
 
     test({
         source: 'b:test',
@@ -97,7 +97,7 @@ fdescribe('Compiler.parseBlockDeclaration', () => {
     }
 });
 
-fdescribe('Compiler.parseElementDeclaration', () => {
+describe('Compiler.parseElementDeclaration', () => {
 
     test({
         source: 'e:',
