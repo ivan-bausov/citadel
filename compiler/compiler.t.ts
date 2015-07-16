@@ -56,7 +56,8 @@ class Compiler {
             });
 
             if(declaration_type) {
-
+                this.tree.upTo(Compiler.parseLevel(line));
+                this.tree.add(this.declaration_parsers[declaration_type](line));
             } else {
                 throw new Error('Unnable to parse code at line: ' + index);
             }
