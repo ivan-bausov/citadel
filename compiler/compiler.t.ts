@@ -31,9 +31,11 @@ class Compiler {
     constructor(private source_code:string) {
         this.source_strings = source_code.split('\n');
 
-        this.declaration_parsers = {
-            'block': (line:string) => Compiler.parseBlockDeclaration(line)
-        };
+        this.declaration_parsers[Compiler.ITEM_TYPE.BLOCK] = Compiler.parseBlockDeclaration;
+        this.declaration_parsers[Compiler.ITEM_TYPE.ELEMENT] = Compiler.parseElementDeclaration;
+
+        this.declaration_patterns[Compiler.ITEM_TYPE.BLOCK] = /^(:?\s*)b:.+$/;
+        this.declaration_patterns[Compiler.ITEM_TYPE.ELEMENT] = /^(:?\s*)e:.+$/;
     }
 
     public scss():string {
@@ -44,9 +46,9 @@ class Compiler {
         return null;
     }
 
-    private calculateSourceObject():void {
+    private buildTree():void {
         _.each(this.source_strings, (line:string, index:number) => {
-            var declaration_type = null;
+            var declaration_type:string = null;
             _.each(this.declaration_patterns, (pattern, type) => {
                 if(pattern.test(line)) {
                     declaration_type = type;
@@ -68,6 +70,15 @@ class Compiler {
 
     public getSourceObject():any {
         return this.source_object;
+    }
+
+    public static parseLevel(str:string):number {
+        var matches = str.match(/^(\s*)/),
+            space_length = matches ? matches[1] && matches[1].length : 0,
+            delta = space_length % 4,
+            count = Math.floor(space_length/4);
+
+        return delta ? count + 1 : count ;
     }
 
     public static parseBlockDeclaration(line:string):ItemData{
@@ -108,9 +119,7 @@ class Compiler {
     private source_strings:string[] = [];
     private source_object:any = [];
     private tree:Tree<ItemData> = new Tree<ItemData>();
-    private declaration_patterns:_.Dictionary<RegExp> = {
-      'block': /.?block.+/
-    };
+    private declaration_patterns:_.Dictionary<RegExp> = {};
     private declaration_parsers:_.Dictionary<(string)=>void>;
 }
 

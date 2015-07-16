@@ -169,3 +169,19 @@ describe('Compiler.parseElementDeclaration', () => {
     }
 });
 
+describe('Compiler.parseLevel', () => {
+    it('0', () => test('3', 0));
+    it('1', () => test(' 3', 1));
+    it('2', () => test('  3', 1));
+    it('3', () => test('   3', 1));
+    it('4', () => test('    4', 1));
+    it('5', () => test('     4', 2));
+    it('6', () => test('      4', 2));
+    it('7', () => test('       4', 2));
+    it('8', () => test('        3', 2));
+
+    function test(str:string, level:number){
+        expect(Compiler.parseLevel(str)).toBe(level);
+    }
+});
+
