@@ -12,6 +12,7 @@ import Tree = require('./tree.t');
 
 import IItem = interfaces.IItem;
 import ItemData = interfaces.ItemData;
+import Serialized = interfaces.Serialized;
 
 var ERRORS = {
     BLOCK_DECLARATION_SYNTAX_ERROR: "BLOCK declaration syntax error",
@@ -34,8 +35,10 @@ class Compiler {
         this.declaration_parsers[Compiler.ITEM_TYPE.BLOCK] = Compiler.parseBlockDeclaration;
         this.declaration_parsers[Compiler.ITEM_TYPE.ELEMENT] = Compiler.parseElementDeclaration;
 
-        this.declaration_patterns[Compiler.ITEM_TYPE.BLOCK] = /^(:?\s*)b:.+$/;
-        this.declaration_patterns[Compiler.ITEM_TYPE.ELEMENT] = /^(:?\s*)e:.+$/;
+        this.declaration_patterns[Compiler.ITEM_TYPE.BLOCK] = /^(:?\s)*b\:.+$/;
+        this.declaration_patterns[Compiler.ITEM_TYPE.ELEMENT] = /^(:?\s)*e\:.+$/;
+
+        this.buildTree();
     }
 
     public scss():string {
@@ -49,6 +52,11 @@ class Compiler {
     private buildTree():void {
         _.each(this.source_strings, (line:string, index:number) => {
             var declaration_type:string = null;
+
+            if(!line.trim()){
+                return;
+            }
+
             _.each(this.declaration_patterns, (pattern, type) => {
                 if(pattern.test(line)) {
                     declaration_type = type;
@@ -59,9 +67,8 @@ class Compiler {
                 this.tree.upTo(Compiler.parseLevel(line));
                 this.tree.add(this.declaration_parsers[declaration_type](line));
             } else {
-                throw new Error('Unnable to parse code at line: ' + index);
+                throw new Error('Unnable to parse code at line: ' + index + ':' + line);
             }
-
         });
     }
 
@@ -69,8 +76,8 @@ class Compiler {
         return this.source_strings;
     }
 
-    public getSourceObject():any {
-        return this.source_object;
+    public getSourceObject():Serialized<ItemData> {
+        return this.tree.serialize();
     }
 
     public static parseLevel(str:string):number {
@@ -118,10 +125,9 @@ class Compiler {
     }
 
     private source_strings:string[] = [];
-    private source_object:any = [];
     private tree:Tree<ItemData> = new Tree<ItemData>();
     private declaration_patterns:_.Dictionary<RegExp> = {};
-    private declaration_parsers:_.Dictionary<(string)=>ItemData>;
+    private declaration_parsers:_.Dictionary<(string)=>ItemData> = {};
 }
 
 export = Compiler;

@@ -1,0 +1,9 @@
+b:header>div
+    e:logo>img
+    e:>a
+    e:info
+        e:cart>a
+        e:login>a
+    e:description
+b:footer
+    e:copyright

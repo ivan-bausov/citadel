@@ -14,21 +14,102 @@ import IItem = interfaces.IItem;
 
 var readContent = Helpers.readContent;
 
-describe('CITADEL COMPILER', () => {
+describe('compiler.getSourceStrings', () => {
 
-    it('tests getSourceStrings', () => {
-        var compiler = new Compiler(readContent('/spec-02/source.ctdl'));
-
+    it('compiler.getSourceStrings', () => {
+        var compiler = new Compiler(readContent('/sources/compiler.getSourceStrings.ctdl'));
         expect(compiler.getSourceStrings().length).toBe(2);
     });
 
-    it('tests getSourceStrings', () => {
-        var compiler = new Compiler(readContent('/spec-01/source.ctdl'));
+});
 
-        expect(compiler.getSourceObject()).toEqual([{
-            type: 'block',
-            tag: 'div'
-        }]);
+describe('compiler.getSourceObject', () => {
+
+    it('compiler.getSourceObject', () => {
+
+        var compiler = new Compiler(readContent('/sources/compiler.getSourceObject-01.ctdl'));
+
+        expect(compiler.getSourceObject()).toEqual({
+            data: null,
+            children: [
+                {
+                    data: {
+                        type: Compiler.ITEM_TYPE.BLOCK,
+                        name: 'header',
+                        tag: 'div'
+                    },
+                    children: [
+                        {
+                            data: {
+                                type: Compiler.ITEM_TYPE.ELEMENT,
+                                name: 'logo',
+                                tag: 'img'
+                            },
+                            children: []
+                        },
+                        {
+                            data: {
+                                type: Compiler.ITEM_TYPE.ELEMENT,
+                                name: null,
+                                tag: 'a'
+                            },
+                            children: []
+                        },
+                        {
+                            data: {
+                                type: Compiler.ITEM_TYPE.ELEMENT,
+                                name: 'info',
+                                tag: null
+                            },
+                            children: [
+                                {
+                                    data: {
+                                        type: Compiler.ITEM_TYPE.ELEMENT,
+                                        name: 'cart',
+                                        tag: 'a'
+                                    },
+                                    children: []
+                                },
+                                {
+                                    data: {
+                                        type: Compiler.ITEM_TYPE.ELEMENT,
+                                        name: 'login',
+                                        tag: 'a'
+                                    },
+                                    children: []
+                                },
+                            ]
+                        },
+                        {
+                            data: {
+                                type: Compiler.ITEM_TYPE.ELEMENT,
+                                name: 'description',
+                                tag: null
+                            },
+                            children: []
+                        },
+                    ]
+                },
+                {
+                    data: {
+                        type: Compiler.ITEM_TYPE.BLOCK,
+                        name: 'footer',
+                        tag: null
+                    },
+                    children: [
+                        {
+                            data: {
+                                type: Compiler.ITEM_TYPE.ELEMENT,
+                                name: 'copyright',
+                                tag: null
+                            },
+                            children: []
+                        }
+                    ]
+                }
+            ]
+        });
+
     });
 
 });

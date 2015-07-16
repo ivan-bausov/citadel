@@ -10,14 +10,14 @@ import Helpers = require('./helpers.t');
 
 var readContent = Helpers.readContent;
 
-describe('CITADEL COMPILER', () => {
-
-    it('tests simple element declare', () => {
-        var html_result = readContent('/spec-01/result.html'),
-            compiler = new Compiler(readContent('/spec-01/source.ctdl'));
-
-        expect(compiler.scss()).toBe(html_result);
-    });
-
-});
+//describe('CITADEL COMPILER', () => {
+//
+//    it('tests simple element declare', () => {
+//        var html_result = readContent('/spec-01/result.html'),
+//            compiler = new Compiler(readContent('/spec-01/source.ctdl'));
+//
+//        expect(compiler.scss()).toBe(html_result);
+//    });
+//
+//});
 

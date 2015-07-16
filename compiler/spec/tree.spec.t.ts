@@ -10,7 +10,7 @@ import Tree = require('../tree.t');
 import ItemData = interfaces.ItemData;
 import IItem = interfaces.IItem;
 
-fdescribe('Tree', () => {
+describe('Tree', () => {
 
     beforeAll(() => {
         this.tree = new Tree<number>();
