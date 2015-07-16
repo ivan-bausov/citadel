@@ -12,7 +12,7 @@ import IItem = interfaces.IItem;
 
 describe('Tree', () => {
 
-    beforeAll(() => {
+    beforeEach(() => {
         this.tree = new Tree<number>();
     });
 
