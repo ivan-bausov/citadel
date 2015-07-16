@@ -10,7 +10,7 @@ import Tree = require('../tree.t');
 import ItemData = interfaces.ItemData;
 import IItem = interfaces.IItem;
 
-describe('Tree', () => {
+fdescribe('Tree', () => {
 
     beforeAll(() => {
         this.tree = new Tree<number>();
@@ -81,6 +81,45 @@ describe('Tree', () => {
         expect(this.tree.level()).toBe(5);
         this.tree.upTo(2);
         expect(this.tree.level()).toBe(2);
+    });
+
+    it('serialize', () => {
+        this.tree.add(1);
+        this.tree.add(2);
+        this.tree.up();
+        this.tree.up();
+        this.tree.add(3);
+        this.tree.add(4);
+        this.tree.up();
+        this.tree.add(5);
+
+        expect(this.tree.serialize()).toEqual({
+            data: null,
+            children: [
+                {
+                    data: 1,
+                    children: [
+                        {
+                            data: 2,
+                            children: []
+                        }
+                    ]
+                },
+                {
+                    data: 3,
+                    children: [
+                        {
+                            data: 4,
+                            children: []
+                        },
+                        {
+                            data: 5,
+                            children: []
+                        }
+                    ]
+                },
+            ]
+        });
     });
 
 });

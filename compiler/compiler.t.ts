@@ -121,7 +121,7 @@ class Compiler {
     private source_object:any = [];
     private tree:Tree<ItemData> = new Tree<ItemData>();
     private declaration_patterns:_.Dictionary<RegExp> = {};
-    private declaration_parsers:_.Dictionary<(string)=>void>;
+    private declaration_parsers:_.Dictionary<(string)=>ItemData>;
 }
 
 export = Compiler;

@@ -8,6 +8,11 @@ export interface ItemData {
     tag:string;
 }
 
+export interface Serialized<T> {
+    data: T;
+    children: Serialized<T>[];
+}
+
 export interface IItem<T> {
     getParent():IItem<T>;
     getChildren():IItem<T>[];

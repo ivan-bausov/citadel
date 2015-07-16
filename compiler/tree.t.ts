@@ -2,9 +2,11 @@
  * Created by Ivan on 15/07/15.
  */
 
+import _ = require('underscore');
 import interfaces = require('./compiler.i');
 
 import ILeaf = interfaces.IItem;
+import Serialized = interfaces.Serialized;
 
 class Item<T> implements ILeaf<T>{
     constructor(private parent: Item<T>, private data:T) {
@@ -28,11 +30,21 @@ class Item<T> implements ILeaf<T>{
         return child;
     }
 
+    public serialize(): Serialized<T>{
+        return {
+            data: this.getInfo(),
+            children: _.map(this.getChildren(), (item:Item<T>) => {
+                return item.serialize();
+            })
+        };
+    }
+
     private childs:Item<T>[] = [];
 }
 
 class Tree<T> {
     constructor() {
+        this.current_leaf = this.root;
     }
 
     public add(leaf_data:T):void{
@@ -64,7 +76,12 @@ class Tree<T> {
         return level;
     }
 
-    private current_leaf: Item<T> = new Item<T>(null, null);
+    public serialize(): Serialized<T>{
+        return this.root.serialize();
+    }
+
+    private current_leaf: Item<T>;
+    private root: Item<T> = new Item<T>(null, null);
 }
 
 export = Tree;
