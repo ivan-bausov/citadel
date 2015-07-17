@@ -266,3 +266,14 @@ describe('Compiler.parseLevel', () => {
     }
 });
 
+describe('compiler.toSCSS', () => {
+
+    it('compiler.toSCSS', () => {
+        var compiler = new Compiler(readContent('/sources/compiler.getSCSS.ctdl')),
+            result = readContent('/sources/compiler.getSCSS.result.scss');
+
+        expect(compiler.getSCSS()).toBe(result);
+    });
+
+});
+
