@@ -12,7 +12,7 @@ import Serialized = interfaces.Serialized;
 import ICompiler = interfaces.ICompiler;
 import TYPES = enums.TYPES;
 
-class StructCompiler implements ICompiler<Serialized<ItemData>> {
+class Compiler implements ICompiler<Serialized<ItemData>> {
 
     static ITEM_TYPE = TYPES;
     static Errors = {
@@ -23,11 +23,11 @@ class StructCompiler implements ICompiler<Serialized<ItemData>> {
     constructor(data:string){
         this.source_strings = data.split('\n');
 
-        this.declaration_parsers[StructCompiler.ITEM_TYPE.BLOCK] = StructCompiler.parseBlockDeclaration;
-        this.declaration_parsers[StructCompiler.ITEM_TYPE.ELEMENT] = StructCompiler.parseElementDeclaration;
+        this.declaration_parsers[Compiler.ITEM_TYPE.BLOCK] = Compiler.parseBlockDeclaration;
+        this.declaration_parsers[Compiler.ITEM_TYPE.ELEMENT] = Compiler.parseElementDeclaration;
 
-        this.declaration_patterns[StructCompiler.ITEM_TYPE.BLOCK] = /^(:?\s)*b\:.+$/;
-        this.declaration_patterns[StructCompiler.ITEM_TYPE.ELEMENT] = /^(:?\s)*e\:.+$/;
+        this.declaration_patterns[Compiler.ITEM_TYPE.BLOCK] = /^(:?\s)*b\:.+$/;
+        this.declaration_patterns[Compiler.ITEM_TYPE.ELEMENT] = /^(:?\s)*e\:.+$/;
 
         this.buildTree();
     }
@@ -51,7 +51,7 @@ class StructCompiler implements ICompiler<Serialized<ItemData>> {
             });
 
             if(declaration_type) {
-                this.tree.upTo(StructCompiler.parseLevel(line));
+                this.tree.upTo(Compiler.parseLevel(line));
                 this.tree.add(this.declaration_parsers[declaration_type](line));
             } else {
                 throw new Error('Unnable to parse code at line: ' + index + ':' + line);
@@ -73,20 +73,20 @@ class StructCompiler implements ICompiler<Serialized<ItemData>> {
     }
 
     public static parseBlockDeclaration(line:string):ItemData{
-        return StructCompiler.parseDeclaration(
+        return Compiler.parseDeclaration(
             line,
             /^\s*b\:\s*([^>\s]+)(:?\s*>\s*(\S+))?\s*$/,
-            StructCompiler.ITEM_TYPE.BLOCK,
-            StructCompiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
+            Compiler.ITEM_TYPE.BLOCK,
+            Compiler.Errors.BLOCK_DECLARATION_SYNTAX_ERROR
         );
     }
 
     public static parseElementDeclaration(line:string):ItemData{
-        return StructCompiler.parseDeclaration(
+        return Compiler.parseDeclaration(
             line,
             /^\s*e\:\s*([^>\s]+)?(:?\s*>\s*(\S+))?\s*$/,
-            StructCompiler.ITEM_TYPE.ELEMENT,
-            StructCompiler.Errors.ELEMENT_DECLARATION_SYNTAX_ERROR
+            Compiler.ITEM_TYPE.ELEMENT,
+            Compiler.Errors.ELEMENT_DECLARATION_SYNTAX_ERROR
         );
     }
 
@@ -113,4 +113,4 @@ class StructCompiler implements ICompiler<Serialized<ItemData>> {
     private declaration_parsers:_.Dictionary<(string)=>ItemData> = {};
 }
 
-export = StructCompiler;
+export = Compiler;
