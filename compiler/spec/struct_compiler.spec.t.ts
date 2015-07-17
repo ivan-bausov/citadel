@@ -1,12 +1,12 @@
 /**
- * Created by Ivan on 15/07/15.
+ * Created by Ivan on 17/07/15.
  */
 /// <reference path="../definitions/jasmine.d.ts" />
 /// <reference path="../definitions/node-0.10.d.ts" />
 
 import fs = require('fs');
 import interfaces = require('../compiler.i');
-import Compiler = require('../compiler.t');
+import Compiler = require('../struct_compiler.t');
 import Helpers = require('./helpers.t');
 
 import ItemData = interfaces.ItemData;
@@ -14,22 +14,22 @@ import IItem = interfaces.IItem;
 
 var readContent = Helpers.readContent;
 
-describe('compiler.getSourceStrings', () => {
+describe('struct_compiler.getSourceStrings', () => {
 
-    it('compiler.getSourceStrings', () => {
+    it('struct_compiler.getSourceStrings', () => {
         var compiler = new Compiler(readContent('/sources/compiler.getSourceStrings.ctdl'));
         expect(compiler.getSourceStrings().length).toBe(2);
     });
 
 });
 
-describe('compiler.getSourceObject', () => {
+describe('struct_compiler.compile', () => {
 
-    it('compiler.getSourceObject', () => {
+    it('struct_compiler.compile', () => {
 
         var compiler = new Compiler(readContent('/sources/compiler.getSourceObject-01.ctdl'));
 
-        expect(compiler.getSourceObject()).toEqual({
+        expect(compiler.compile()).toEqual({
             data: null,
             children: [
                 {
@@ -114,7 +114,7 @@ describe('compiler.getSourceObject', () => {
 
 });
 
-describe('Compiler.parseBlockDeclaration', () => {
+describe('StructCompiler.parseBlockDeclaration', () => {
 
     test({
         source: 'b:test',
@@ -178,7 +178,7 @@ describe('Compiler.parseBlockDeclaration', () => {
     }
 });
 
-describe('Compiler.parseElementDeclaration', () => {
+describe('struct_compiler.parseElementDeclaration', () => {
 
     test({
         source: 'e:',
@@ -266,14 +266,4 @@ describe('Compiler.parseLevel', () => {
     }
 });
 
-describe('compiler.toSCSS', () => {
-
-    it('compiler.toSCSS', () => {
-        var compiler = new Compiler(readContent('/sources/compiler.getSCSS.ctdl')),
-            result = readContent('/sources/compiler.getSCSS.result.scss');
-
-        expect(compiler.getSCSS()).toBe(result);
-    });
-
-});
 

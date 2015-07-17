@@ -2,6 +2,10 @@
  * Created by Ivan on 15/07/15.
  */
 
+export interface ICompiler<TOutput> {
+    compile():TOutput;
+}
+
 export interface ItemData {
     type:string;
     name:string;
