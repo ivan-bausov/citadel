@@ -14,11 +14,21 @@ import IItem = interfaces.IItem;
 
 var readContent = Helpers.readContent;
 
-describe('compiler.toSCSS', () => {
 
-    it('compiler.toSCSS', () => {
-        var compiler = new Compiler(readContent('/sources/compiler.getSCSS.ctdl')),
-            result = readContent('/sources/compiler.getSCSS.result.scss');
+describe('compiler.getHTML', () => {
+    it('compiler.getHTML', () => {
+        var compiler = new Compiler(readContent('/sources/html_compiler.compile.ctdl')),
+            result = readContent('/sources/html_compiler.compile.result.html');
+
+        expect(compiler.getHTML()).toBe(result);
+    });
+});
+
+describe('compiler.getSCSS', () => {
+
+    it('compiler.getSCSS', () => {
+        var compiler = new Compiler(readContent('/sources/scss_compiler.compile.ctdl')),
+            result = readContent('/sources/scss_compiler.compile.result.scss');
 
         expect(compiler.getSCSS()).toBe(result);
     });

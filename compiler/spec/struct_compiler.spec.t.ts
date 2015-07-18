@@ -17,7 +17,7 @@ var readContent = Helpers.readContent;
 describe('struct_compiler.getSourceStrings', () => {
 
     it('struct_compiler.getSourceStrings', () => {
-        var compiler = new Compiler(readContent('/sources/compiler.getSourceStrings.ctdl'));
+        var compiler = new Compiler(readContent('/sources/struct_compiler.getSourceStrings.ctdl'));
         expect(compiler.getSourceStrings().length).toBe(2);
     });
 
@@ -27,7 +27,7 @@ describe('struct_compiler.compile', () => {
 
     it('struct_compiler.compile', () => {
 
-        var compiler = new Compiler(readContent('/sources/compiler.getSourceObject-01.ctdl'));
+        var compiler = new Compiler(readContent('/sources/struct_compiler.getSourceObject-01.ctdl'));
 
         expect(compiler.compile()).toEqual({
             data: null,

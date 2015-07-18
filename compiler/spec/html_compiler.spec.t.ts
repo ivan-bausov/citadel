@@ -6,7 +6,7 @@
 
 import fs = require('fs');
 import interfaces = require('../compiler.i');
-import Compiler = require('../scss_compiler.t');
+import Compiler = require('../html_compiler.t');
 import Helpers = require('./helpers.t');
 
 import ItemData = interfaces.ItemData;
