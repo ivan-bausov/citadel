@@ -1,3 +1,10 @@
 .idea/
 node_modules/
 npm-debug.log
+
+.tscache/
+*.t.js
+*.t.map.js
+*.i.js
+*.e.js
+*.t.js
