@@ -9,6 +9,7 @@ import interfaces = require('./compiler.i');
 import enums = require('./compiler.e');
 import StructCompiler = require('./struct_compiler.t');
 import ScssCompiler = require('./scss_compiler.t');
+import HtmlCompiler = require('./html_compiler.t');
 
 import ItemData = interfaces.ItemData;
 import Serialized = interfaces.Serialized;
@@ -27,7 +28,7 @@ class Compiler {
     }
 
     public getHTML():string {
-        return null;
+        return new HtmlCompiler(this.source_object).compile();
     }
 
     private source_object: Serialized<ItemData>;
